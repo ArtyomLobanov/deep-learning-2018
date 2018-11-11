@@ -2,10 +2,10 @@
 
 import math
 import os
+import ot
 from pathlib import Path
 
 import numpy as np
-import ot
 import torch
 import torch.nn.functional as F
 import torchvision.datasets as dset

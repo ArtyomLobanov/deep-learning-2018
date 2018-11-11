@@ -52,6 +52,9 @@ class DCGANTrainer:
         criterion = nn.BCELoss()
 
         global_step = 0
+
+        evolution_noise = torch.randn(n_show_samples, self.latent_size, 1, 1, device=self.device)
+
         for epoch in range(n_epoch):
             for i, data in enumerate(dataloader):
 
@@ -73,6 +76,9 @@ class DCGANTrainer:
 
                     y = vutils.make_grid(real[:n_show_samples, :, :, :], normalize=True, scale_each=True)
                     self.writer.add_image('img/real', y, global_step)
+
+                    e = vutils.make_grid(self.net_g(evolution_noise), normalize=True, scale_each=True)
+                    self.writer.add_image('img/evolution', e, global_step)
 
                 target = torch.zeros(real.size()[0], device=self.device)
                 output = self.net_d(fake.detach())

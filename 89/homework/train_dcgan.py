@@ -1,14 +1,15 @@
 import argparse
 import logging
 import os
+import sys
 
 import torch
 import torchvision.datasets as datasets
 from torch.optim import Adam
 from torchvision import transforms
 
-from homework.dcgan import DCGenerator, DCDiscriminator
-from homework.dcgan import DCGANTrainer
+from homework.dcgan.dcgan import DCGenerator, DCDiscriminator
+from homework.dcgan.trainer import DCGANTrainer
 
 
 def get_config():
@@ -19,7 +20,7 @@ def get_config():
     parser.add_argument('--log-name', type=str, default='train_dcgan.log')
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='enables CUDA training')
-    parser.add_argument('--batch-size', type=int, default=256,
+    parser.add_argument('--batch-size', type=int, default=128,
                         help='input batch size for training')
     parser.add_argument('--epochs', type=int, default=30,
                         help='number of epochs to train ')
@@ -36,6 +37,7 @@ def get_config():
 
 def main():
     config = get_config()
+    print(config.image_size)
     logging.basicConfig(
         format='%(asctime)s | %(message)s',
         handlers=[
